@@ -1,38 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout     xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+<LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kite.cloudlearn.MainActivity"
-    >
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.kite.cloudlearn.MainActivity">
 
-  <android.support.design.widget.AppBarLayout
+  <!--状态栏-->
+  <View
+      android:id="@+id/view_status"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:theme="@style/AppTheme.AppBarOverlay"
-      >
+      android:layout_height="24dp"
+      android:visibility="gone"
+      android:background="@color/colorTheme" />
 
+
+  <!--TODO : 置toolbar样式-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        />
+        android:background="@color/colorTheme"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+      <HorizontalScrollView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_gravity="center">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:theme="@style/AppTheme">
+          <ImageView
+              android:id="@+id/iv_title_gank"
+              android:layout_width="55dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:background="?attr/selectableItemBackgroundBorderless"
+              android:src="@drawable/titlebar_disco" />
 
-  </android.support.design.widget.AppBarLayout>
+          <ImageView
+              android:id="@+id/iv_title_one"
+              android:layout_width="55dp"
+              android:layout_height="match_parent"
+              android:background="?attr/selectableItemBackgroundBorderless"
+              android:src="@drawable/titlebar_music" />
 
-  <include layout="@layout/content_main"/>
+          <ImageView
+              android:id="@+id/iv_title_dou"
+              android:layout_width="55dp"
+              android:layout_height="match_parent"
+              android:background="?attr/selectableItemBackgroundBorderless"
+              android:src="@drawable/titlebar_friends" />
 
-  <android.support.design.widget.FloatingActionButton
-      android:id="@+id/fab"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="bottom|end"
-      android:layout_margin="@dimen/fab_margin"
-      app:srcCompat="@android:drawable/ic_dialog_email"
-      />
+        </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+      </HorizontalScrollView>
+    </android.support.v7.widget.Toolbar>
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:descendantFocusability="blocksDescendants" />
+
+  </FrameLayout>
+
+
+</LinearLayout>
+</layout>

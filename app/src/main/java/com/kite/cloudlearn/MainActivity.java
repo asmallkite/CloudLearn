@@ -1,8 +1,10 @@
 package com.kite.cloudlearn;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,34 +12,61 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import com.kite.cloudlearn.databinding.ActivityMainBinding;
+import com.kite.cloudlearn.utils.CommonUtils;
+import com.kite.cloudlearn.view.statusbar.StatusBarUtil;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+
+  private FrameLayout llTitleMenu;
+  private Toolbar toolbar;
+  private NavigationView navView;
+  private DrawerLayout drawer;
+  private ViewPager vpContent;
+
+  private ActivityMainBinding mBinding;
+  private ImageView llTitleGank;
+  private ImageView llTitleOne;
+  private ImageView llTitleDou;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
+    mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            .setAction("Action", null)
-            .show();
-      }
-    });
+    initStatusView();
 
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    initId();
+
+    StatusBarUtil.setColorNoTranslucentForDrawerLayout(MainActivity.this, drawer,
+        CommonUtils.getColor(R.color.colorTheme));
+  }
+
+  private void initId() {
+    drawer = mBinding.drawerLayout;
+    navView = mBinding.navView;
+    toolbar = mBinding.include.toolbar;
+    vpContent = mBinding.include.vpContent;
+    llTitleGank = mBinding.include.ivTitleGank;
+    llTitleOne = mBinding.include.ivTitleOne;
+    llTitleDou = mBinding.include.ivTitleDou;
+
     ActionBarDrawerToggle toggle =
         new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     drawer.setDrawerListener(toggle);
     toggle.syncState();
 
-    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-    navigationView.setNavigationItemSelectedListener(this);
+    navView.setNavigationItemSelectedListener(this);
+  }
+
+  private void initStatusView() {
+    ViewGroup.LayoutParams layoutParams = mBinding.include.viewStatus.getLayoutParams();
+    layoutParams.height = StatusBarUtil.getStatusBarHeight(this);
+    mBinding.include.viewStatus.setLayoutParams(layoutParams);
   }
 
   @Override public void onBackPressed() {
@@ -49,25 +78,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
   }
 
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.main, menu);
-    return true;
-  }
-
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-
-    return super.onOptionsItemSelected(item);
-  }
 
   @SuppressWarnings("StatementWithEmptyBody") @Override public boolean onNavigationItemSelected(MenuItem item) {
     // Handle navigation view item clicks here.
