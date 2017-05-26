@@ -9,4 +9,7 @@
   <color name="colorPageBg">#f2f4f5</color>
 
   <color name="colorWhite">#ffffffff</color>
+
+  <!--tab标签栏文字的颜色-->
+  <color name="colorTabText">#585858</color>
 </resources>

@@ -2,8 +2,7 @@ package com.kite.cloudlearn;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,11 +15,16 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import com.kite.cloudlearn.adapter.CloudFragmentPagerAdapter;
 import com.kite.cloudlearn.databinding.ActivityMainBinding;
+import com.kite.cloudlearn.test.BlankFragment;
 import com.kite.cloudlearn.utils.CommonUtils;
 import com.kite.cloudlearn.view.statusbar.StatusBarUtil;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+    View.OnClickListener {
 
 
   private FrameLayout llTitleMenu;
@@ -42,8 +46,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     initId();
 
+    initListener();
+
+    List<Fragment> fragments = new ArrayList<>(3);
+    fragments.add(new BlankFragment());
+    fragments.add(new BlankFragment());
+    fragments.add(new BlankFragment());
+    CloudFragmentPagerAdapter fragmentPagerAdapter = new CloudFragmentPagerAdapter(getSupportFragmentManager(), fragments);
+    vpContent.setAdapter(fragmentPagerAdapter);
+    vpContent.setOffscreenPageLimit(2);
+    vpContent.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+      @Override
+      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+      }
+
+      @Override public void onPageSelected(int position) {
+        switch (position) {
+          case 0:
+            llTitleGank.setSelected(true);
+            llTitleOne.setSelected(false);
+            llTitleDou.setSelected(false);
+            break;
+          case 1:
+            llTitleOne.setSelected(true);
+            llTitleGank.setSelected(false);
+            llTitleDou.setSelected(false);
+            break;
+          case 2:
+            llTitleDou.setSelected(true);
+            llTitleOne.setSelected(false);
+            llTitleGank.setSelected(false);
+            break;
+        }
+
+      }
+
+      @Override public void onPageScrollStateChanged(int state) {
+
+      }
+    });
+
+
     StatusBarUtil.setColorNoTranslucentForDrawerLayout(MainActivity.this, drawer,
         CommonUtils.getColor(R.color.colorTheme));
+  }
+
+  private void initListener() {
+    llTitleGank.setOnClickListener(this);
+    llTitleOne.setOnClickListener(this);
+    llTitleDou.setOnClickListener(this);
   }
 
   private void initId() {
@@ -54,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     llTitleGank = mBinding.include.ivTitleGank;
     llTitleOne = mBinding.include.ivTitleOne;
     llTitleDou = mBinding.include.ivTitleDou;
+    llTitleGank.setSelected(true); //设置第一个 选中状态
 
     ActionBarDrawerToggle toggle =
         new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -100,5 +153,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
+  }
+
+  @Override public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.iv_title_gank:
+        vpContent.setCurrentItem(0, true);
+        break;
+      case R.id.iv_title_one:
+        vpContent.setCurrentItem(1, true);
+        break;
+
+      case R.id.iv_title_dou:
+        vpContent.setCurrentItem(2, true);
+        break;
+      default:
+        break;
+    }
+
   }
 }
