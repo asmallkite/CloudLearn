@@ -15,7 +15,7 @@ public interface HttpClient {
 
   class Builder {
     public static HttpClient getDoubanService() {
-      return HttpUtils.getInstace().getDoubanServer(HttpClient.class);
+      return HttpUtils.getInstance().getDouBanServer(HttpClient.class);
     }
   }
 

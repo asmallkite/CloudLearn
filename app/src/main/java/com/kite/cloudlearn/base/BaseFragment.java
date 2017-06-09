@@ -9,10 +9,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.kite.cloudlearn.R;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by 10648 on 2017/5/18 0018.
@@ -32,16 +34,37 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
   protected RelativeLayout mContainer;
   // 动画
   private AnimationDrawable mAnimationDrawable;
-  private CompositeSubscription mCompositeSubscription;
+  private CompositeDisposable mCompositeDisposable;
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View ll = inflater.inflate(R.layout.fragment_base, null);
     bindingView = DataBindingUtil.inflate(getActivity().getLayoutInflater(), setContent(), null, false);
-
+    mContainer = (RelativeLayout) ll.findViewById(R.id.container);
+    mContainer.addView(bindingView.getRoot());
     return ll;
 
+  }
+
+  @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    mLlProgressBar = getView(R.id.ll_progress_bar);
+    ImageView imageView = getView(R.id.img_progress);
+    //  加载动画
+    mAnimationDrawable = (AnimationDrawable) imageView.getDrawable();
+    //默认进入页面就开启动画
+    if (!mAnimationDrawable.isRunning()) {
+      mAnimationDrawable.start();
+    }
+    mRefresh = getView(R.id.ll_error_refresh);
+    mRefresh.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        showLoading();
+        onRefresh();
+      }
+    });
+    bindingView.getRoot().setVisibility(View.GONE);
   }
 
   @Override public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -67,7 +90,31 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
 
   }
 
+  protected void onRefresh() {
+
+  }
+
   public abstract int setContent();
+
+
+  protected void showLoading() {
+    if (mLlProgressBar.getVisibility() != View.VISIBLE) {
+      mLlProgressBar.setVisibility(View.VISIBLE);
+    }
+    if (!mAnimationDrawable.isRunning()) {
+      mAnimationDrawable.start();
+    }
+    if (bindingView.getRoot().getVisibility() != View.GONE){
+      bindingView.getRoot().setVisibility(View.GONE);
+    }
+    if (mRefresh.getVisibility() != View.GONE) {
+      mRefresh.setVisibility(View.GONE);
+    }
+  }
+
+  protected <T extends View> T getView(int id) {
+    return (T) getView().findViewById(id);
+  }
 
   /**
    * 加载完成的状态
@@ -86,6 +133,13 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
     if (bindingView.getRoot().getVisibility() != View.VISIBLE) {
       bindingView.getRoot().setVisibility(View.VISIBLE);
     }
+  }
+
+  public void addDisposable(Disposable disposable) {
+    if (mCompositeDisposable == null) {
+      mCompositeDisposable = new CompositeDisposable();
+    }
+    mCompositeDisposable.add(disposable);
   }
 
 

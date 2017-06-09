@@ -5,24 +5,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-<!--
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_book"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/colorWhite"
-            app:tabBackground="@drawable/ripple_tab_bg"
-            app:tabIndicatorColor="@color/colorTheme"
-            app:tabSelectedTextColor="@color/colorTheme"
-            app:tabTextColor="@color/colorTabText" />-->
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_book"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/colorWhite"
-            app:tabIndicatorColor="@color/colorTheme"
-            app:tabSelectedTextColor="@color/colorTheme"/>
+        <!--<android.support.design.widget.TabLayout-->
+            <!--android:id="@+id/tab_book"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:background="@color/colorWhite"-->
+            <!--app:tabBackground="@drawable/ripple_tab_bg"-->
+            <!--app:tabIndicatorColor="@color/colorTheme"-->
+            <!--app:tabSelectedTextColor="@color/colorTheme"-->
+            <!--app:tabTextColor="@color/colorTabText" />-->
+
+      <android.support.design.widget.TabLayout
+          android:id="@+id/tab_book"
+          android:background="@color/colorTheme"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_book"

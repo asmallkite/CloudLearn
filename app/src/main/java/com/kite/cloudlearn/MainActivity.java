@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import com.kite.cloudlearn.adapter.CloudFragmentPagerAdapter;
 import com.kite.cloudlearn.databinding.ActivityMainBinding;
 import com.kite.cloudlearn.test.BlankFragment;
+import com.kite.cloudlearn.ui.book.BookFragment;
 import com.kite.cloudlearn.utils.CommonUtils;
 import com.kite.cloudlearn.view.statusbar.StatusBarUtil;
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     List<Fragment> fragments = new ArrayList<>(3);
     fragments.add(new BlankFragment());
     fragments.add(new BlankFragment());
-    fragments.add(new BlankFragment());
+    fragments.add(new BookFragment());
     CloudFragmentPagerAdapter fragmentPagerAdapter = new CloudFragmentPagerAdapter(getSupportFragmentManager(), fragments);
     vpContent.setAdapter(fragmentPagerAdapter);
     vpContent.setOffscreenPageLimit(2);

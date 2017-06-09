@@ -12,4 +12,6 @@
 
   <!--tab标签栏文字的颜色-->
   <color name="colorTabText">#585858</color>
+
+  <color name="colorTitle">#666</color>
 </resources>
