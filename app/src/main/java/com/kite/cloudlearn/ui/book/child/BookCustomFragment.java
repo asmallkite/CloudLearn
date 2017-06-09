@@ -1,11 +1,11 @@
 package com.kite.cloudlearn.ui.book.child;
 
 import android.os.Bundle;
-import android.os.Debug;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 import com.kite.cloudlearn.R;
 import com.kite.cloudlearn.adapter.BookAdapter;
 import com.kite.cloudlearn.base.BaseFragment;
@@ -14,12 +14,10 @@ import com.kite.cloudlearn.databinding.FragmentBookCustomBinding;
 import com.kite.cloudlearn.http.HttpClient;
 import com.kite.cloudlearn.utils.CommonUtils;
 import com.kite.cloudlearn.utils.DebugUtil;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import org.reactivestreams.Subscription;
 
 /**
  * Created by 10648 on 2017/5/18 0018.
@@ -30,7 +28,7 @@ public class BookCustomFragment extends BaseFragment<FragmentBookCustomBinding> 
   private static final String TYPE = "param1";
   private String mType = "文学";
   private boolean mIsPrepared;
-  private boolean mIsFirst = true;
+  private boolean mNoData = true;
 
   private int mStart = 0;
   private int mCount = 18;
@@ -72,6 +70,8 @@ public class BookCustomFragment extends BaseFragment<FragmentBookCustomBinding> 
     mLayoutManager = new GridLayoutManager(getActivity(), 3);
     bindingView.xrvBook.setLayoutManager(mLayoutManager);
 
+    scrollRecyclerView();
+
     mIsPrepared = true;
 
     loadData();
@@ -79,7 +79,7 @@ public class BookCustomFragment extends BaseFragment<FragmentBookCustomBinding> 
   }
 
   @Override protected void loadData() {
-    if (!mIsPrepared || !mIsVisible || !mIsFirst) {
+    if (!mIsPrepared || !mIsVisible || !mNoData) {
       return;
     }
     bindingView.srlBook.setRefreshing(true);
@@ -99,7 +99,6 @@ public class BookCustomFragment extends BaseFragment<FragmentBookCustomBinding> 
           @Override
           public void onError(Throwable e) {
             e.printStackTrace();
-            DebugUtil.error("error" + e.toString());
             showContentView();
             if (bindingView.srlBook.isRefreshing()) {
               bindingView.srlBook.setRefreshing(false);
@@ -130,7 +129,7 @@ public class BookCustomFragment extends BaseFragment<FragmentBookCustomBinding> 
                 bindingView.xrvBook.setAdapter(mBookAdapter);
 
               }
-              mIsFirst = false;
+              mNoData = false;
             } else {
               mBookAdapter.addAll(bookBean.getBooks());
               mBookAdapter.notifyDataSetChanged();
@@ -147,5 +146,38 @@ public class BookCustomFragment extends BaseFragment<FragmentBookCustomBinding> 
   @Override protected void onRefresh() {
     bindingView.srlBook.setRefreshing(true);
     loadCustomData();
+  }
+
+
+  public void scrollRecyclerView() {
+    bindingView.xrvBook.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+      int lastVisibleItem;
+
+      @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        super.onScrollStateChanged(recyclerView, newState);
+        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+          lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+          if (mBookAdapter == null) {
+            return;
+          }
+          if (lastVisibleItem + 1 == mLayoutManager.getItemCount()
+              && mBookAdapter.getStatus() != BookAdapter.LOAD_MORE) {
+            mBookAdapter.updateLoadStatus(BookAdapter.LOAD_MORE);
+            new Handler().postDelayed(new Runnable() {
+              @Override public void run() {
+                mStart += mCount;
+                loadCustomData();
+              }
+            }, 0);
+          }
+        }
+      }
+
+      @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
+        lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+      }
+    });
   }
 }

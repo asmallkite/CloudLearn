@@ -2,6 +2,7 @@ package com.kite.cloudlearn.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +85,25 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     return mList.size() + 2;
   }
 
+  /**
+   * 处理 GridLayoutManager 添加头尾布局占满屏幕宽的情况
+   */
+  @Override public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    super.onAttachedToRecyclerView(recyclerView);
+    RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+    if (manager instanceof GridLayoutManager) {
+      final GridLayoutManager gridLayoutManager = (GridLayoutManager) manager;
+      gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+        @Override public int getSpanSize(int position) {
+          if (position == 0 || position == getItemCount() - 1) {
+            return gridLayoutManager.getSpanCount();
+          }
+          return 1;
+        }
+      });
+    }
+  }
+
 
   public void updateLoadStatus(int status) {
     this.status = status;
@@ -158,5 +178,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
   public void addAll(List<BooksBean> list) {
     mList.addAll(list);
+  }
+
+  public int getStatus() {
+    return status;
   }
 }
