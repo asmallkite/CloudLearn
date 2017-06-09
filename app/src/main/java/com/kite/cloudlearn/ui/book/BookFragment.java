@@ -23,6 +23,10 @@ public class BookFragment extends BaseFragment<FragmentBookBinding> {
   private List<String> mTitleList = new ArrayList<>(3);
   private List<Fragment> mFragments = new ArrayList<>(3);
 
+  private static final String TAB1 = "文学";
+  private static final String TAB2 = "文化";
+  private static final String TAB3 = "生活";
+
 
 
   @Override public int setContent() {
@@ -45,11 +49,11 @@ public class BookFragment extends BaseFragment<FragmentBookBinding> {
   }
 
   private void initFragmentList() {
-    mTitleList.add("文学");
-    mTitleList.add("文化");
-    mTitleList.add("生活");
-    mFragments.add(new BlankFragment());
-    mFragments.add(new BlankFragment());
-    mFragments.add(new BookCustomFragment());
+    mTitleList.add(TAB1);
+    mTitleList.add(TAB2);
+    mTitleList.add(TAB3);
+    mFragments.add(BookCustomFragment.newInstance(TAB1));
+    mFragments.add(BookCustomFragment.newInstance(TAB2));
+    mFragments.add(BookCustomFragment.newInstance(TAB3));
   }
 }

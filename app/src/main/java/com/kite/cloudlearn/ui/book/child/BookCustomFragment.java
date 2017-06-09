@@ -38,12 +38,24 @@ public class BookCustomFragment extends BaseFragment<FragmentBookCustomBinding> 
   private BookAdapter mBookAdapter;
   private GridLayoutManager mLayoutManager;
 
+  public static BookCustomFragment newInstance(String key) {
+    BookCustomFragment instance = new BookCustomFragment();
+    Bundle bundle = new Bundle();
+    bundle.putString(TYPE, key);
+    instance.setArguments(bundle);
+    return instance;
+  }
+
+
   @Override public int setContent() {
     return R.layout.fragment_book_custom;
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    if (getArguments() != null) {
+      mType = getArguments().getString(TYPE);
+    }
     showContentView();
     bindingView.srlBook.setColorSchemeColors(CommonUtils.getColor(R.color.colorTheme));
     bindingView.srlBook.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
