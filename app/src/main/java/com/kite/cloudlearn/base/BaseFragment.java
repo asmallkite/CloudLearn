@@ -135,6 +135,26 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
     }
   }
 
+  /**
+   * 加载失败点击重新加载的状态
+   */
+  protected void showError() {
+    if (mLlProgressBar.getVisibility() != View.GONE) {
+      mLlProgressBar.setVisibility(View.GONE);
+    }
+    // 停止动画
+    if (mAnimationDrawable.isRunning()) {
+      mAnimationDrawable.stop();
+    }
+    if (mRefresh.getVisibility() != View.VISIBLE) {
+      mRefresh.setVisibility(View.VISIBLE);
+    }
+    if (bindingView.getRoot().getVisibility() != View.GONE) {
+      bindingView.getRoot().setVisibility(View.GONE);
+    }
+  }
+
+
   public void addDisposable(Disposable disposable) {
     if (mCompositeDisposable == null) {
       mCompositeDisposable = new CompositeDisposable();

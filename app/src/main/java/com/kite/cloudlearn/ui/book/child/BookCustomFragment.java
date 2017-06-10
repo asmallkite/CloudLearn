@@ -104,7 +104,7 @@ public class BookCustomFragment extends BaseFragment<FragmentBookCustomBinding> 
               bindingView.srlBook.setRefreshing(false);
             }
             if (mStart == 0) {
-              //showError();
+              showError();
             }
           }
 
@@ -152,12 +152,10 @@ public class BookCustomFragment extends BaseFragment<FragmentBookCustomBinding> 
   public void scrollRecyclerView() {
     bindingView.xrvBook.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
-      int lastVisibleItem;
-
       @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-          lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+          int lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
           if (mBookAdapter == null) {
             return;
           }
@@ -172,11 +170,6 @@ public class BookCustomFragment extends BaseFragment<FragmentBookCustomBinding> 
             }, 0);
           }
         }
-      }
-
-      @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        super.onScrolled(recyclerView, dx, dy);
-        lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
       }
     });
   }
