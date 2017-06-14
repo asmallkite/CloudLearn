@@ -162,5 +162,8 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
     mCompositeDisposable.add(disposable);
   }
 
-
+  @Override public void onDestroy() {
+    super.onDestroy();
+    mCompositeDisposable.clear();
+  }
 }

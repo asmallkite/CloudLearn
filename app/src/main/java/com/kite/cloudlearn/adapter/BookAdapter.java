@@ -1,5 +1,6 @@
 package com.kite.cloudlearn.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +13,7 @@ import com.kite.cloudlearn.bean.book.BooksBean;
 import com.kite.cloudlearn.databinding.FooterItemBookBinding;
 import com.kite.cloudlearn.databinding.HeaderItemBookBinding;
 import com.kite.cloudlearn.databinding.ItemBookBinding;
+import com.kite.cloudlearn.ui.book.child.BookDetailActivity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +34,11 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
   private static final int LOAD_END = 6;
 
 
-  private Context mContext;
+  private Activity mContext;
   private List<BooksBean> mList;
 
   public BookAdapter(Context context) {
-    mContext = context;
+    mContext = (Activity) context;
     mList = new ArrayList<>();
   }
 
@@ -159,9 +161,15 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
       mBindBook = DataBindingUtil.getBinding(itemView);
     }
 
-    private void bindItem(BooksBean book) {
+    private void bindItem(final BooksBean book) {
       mBindBook.setBean(book);
       mBindBook.executePendingBindings();
+
+      mBindBook.llItemTop.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+          BookDetailActivity.start(mContext, book, mBindBook.itTopPhoto);
+        }
+      });
     }
   }
 

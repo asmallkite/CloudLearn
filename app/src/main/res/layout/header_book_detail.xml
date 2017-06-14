@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+  <data>
+    <import type="java.lang.String" />
+    <import type="com.kite.cloudlearn.utils.StringFormatUtil" />
+    <variable
+        name="booksBean"
+        type="com.kite.cloudlearn.bean.book.BooksBean" />
+  </data>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      >
+    <ImageView
+        android:id="@+id/img_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="fitXY"
+        showGaussian="@{booksBean.images.large}"
+        />
+    <ImageView
+        android:id="@+id/iv_one_photo"
+        android:layout_width="120dp"
+        android:layout_height="165dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="40dp"
+        android:scaleType="centerCrop"
+        showBookImg="@{booksBean.images.large}"
+        android:transitionName="@string/transition_book_img"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_toEndOf="@id/iv_one_photo"
+        android:layout_centerVertical="true">
+
+<!--以下三个控件是作者 部分-->
+      <TextView
+          android:id="@+id/author"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="作者："
+          android:textColor="@color/colorWhite"
+          />
+
+      <View
+          android:id="@+id/divide_line"
+          android:layout_width="28dp"
+          android:layout_height="2dp"
+          android:layout_below="@id/author"
+          android:layout_marginTop="2dp"
+          android:background="@color/colorTheme" />
+
+          <!--集合不能直接赋值，参数也要传对，注意！-->
+          <TextView
+              android:id="@+id/tv_one_directors"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_toEndOf="@id/author"
+              android:layout_marginStart="10dp"
+              android:maxLines="1"
+              android:ellipsize="end"
+              android:text="@{StringFormatUtil.formatGenres(booksBean.author)}"
+              android:textColor="@color/colorWhite" />
+
+
+         <TextView
+              android:id="@+id/tv_one_rating_rate"
+              android:layout_below="@id/author"
+              android:layout_marginTop="10dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:ellipsize="end"
+              android:text='@{@string/string_rating+booksBean.rating.average}'
+              android:textColor="@color/colorRateRed" />
+
+            <TextView
+                   android:id="@+id/tv_one_rating_number"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignTop="@id/tv_one_rating_rate"
+                   android:layout_toEndOf="@id/tv_one_rating_rate"
+                   android:layout_marginStart="10dp"
+                   android:ellipsize="end"
+                   android:lines="1"
+                   android:text='@{booksBean.rating.numRaters+@string/string_rating_num}'
+                   android:textColor="@color/colorWhite" />
+
+
+
+                  <TextView
+                      android:id="@+id/publish_time"
+                      android:layout_below="@id/tv_one_rating_rate"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="出版时间："
+                     android:textColor="@color/colorWhite" />
+
+                 <TextView
+                     android:id="@+id/tv_one_casts"
+                     android:layout_below="@id/tv_one_rating_number"
+                     android:layout_toEndOf="@id/publish_time"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:ellipsize="end"
+                     android:text="@{booksBean.pubdate}"
+                     android:textColor="@color/colorWhite" />
+
+               <TextView
+                   android:id="@+id/tv_one_genres"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@id/publish_time"
+                   android:ellipsize="end"
+                   android:text='@{@string/string_publisher+booksBean.publisher}'
+                   android:textColor="@color/colorWhite" />
+
+    </RelativeLayout>
+
+
+  </RelativeLayout>
+
+</layout>

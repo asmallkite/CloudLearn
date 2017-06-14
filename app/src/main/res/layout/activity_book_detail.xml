@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+  <data>
+    <variable
+        name="bookDetailBean"
+        type="com.kite.cloudlearn.bean.book.BookDetailBean" />
+  </data>
+
+  <!--最外层的LinearLayout-->
+  <LinearLayout
+      android:id="@+id/activity_book_detail"
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      tools:context="com.kite.cloudlearn.ui.book.child.BookDetailActivity"
+      >
+    <!--摘要-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <View
+          android:layout_width="2dp"
+          android:layout_height="18dp"
+        android:background="@color/colorTheme" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="摘要"
+          android:textSize="17sp"
+          android:textColor="@color/colorContent"
+          />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{bookDetailBean.summary}"
+        android:textColor="@color/colorTitle"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <View
+          android:layout_width="2dp"
+          android:layout_height="18dp"
+          android:background="@color/colorTheme" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="作者简介"
+          android:textSize="17sp"
+          android:textColor="@color/colorContent"
+          />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{bookDetailBean.author_intro}"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <View
+          android:layout_width="2dp"
+          android:layout_height="18dp"
+          android:background="@color/colorTheme" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="目录"
+          android:textSize="17sp"
+          android:textColor="@color/colorContent"
+          />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{bookDetailBean.catalog}"
+        />
+  </LinearLayout>
+</layout>
+
+
