@@ -12,6 +12,27 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  */
 
 public class ImageLoadUtil {
+  /**
+   * 妹子，电影列表图
+   *
+   * @param defaultPicType 电影：0；妹子：1； 书籍：2
+   */
+  @BindingAdapter({"displayFadeImage", "defaultPicType"})
+  public static void displayFadeImage(ImageView imageView, String url, int defaultPicType) {
+    displayEspImage(url, imageView, defaultPicType);
+  }
+  /**
+   * 书籍、妹子图、电影列表图
+   * 默认图区别
+   */
+  public static void displayEspImage(String url, ImageView imageView, int type) {
+    Glide.with(imageView.getContext())
+            .load(url)
+            .crossFade(500)
+            .placeholder(getDefaultPic(type))
+            .error(getDefaultPic(type))
+            .into(imageView);
+  }
 
   /**
    * 书籍列表 展示图片

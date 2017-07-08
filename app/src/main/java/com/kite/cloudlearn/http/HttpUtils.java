@@ -44,7 +44,7 @@ public class HttpUtils {
     private static HttpUtils instance;
     private Gson gson;
     private Context context;
-    private Object gankHttps;
+    private volatile Object gankHttps;
     private Object doubanHttps;
     private Object dongtingHttps;
     private IpmlTokenGetListener listener;

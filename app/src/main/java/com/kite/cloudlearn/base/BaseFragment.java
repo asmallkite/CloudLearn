@@ -36,11 +36,26 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
   private AnimationDrawable mAnimationDrawable;
   private CompositeDisposable mCompositeDisposable;
 
+    //setUserVisibleHint() 在 上图所示fragment所有生命周期之前
+    @Override public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getUserVisibleHint()) {
+            mIsVisible = true;
+            onVisible();
+        } else {
+            mIsVisible = false;
+            onInVisible();
+        }
+    }
+
+
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View ll = inflater.inflate(R.layout.fragment_base, null);
     bindingView = DataBindingUtil.inflate(getActivity().getLayoutInflater(), setContent(), null, false);
+    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    bindingView.getRoot().setLayoutParams(params);
     mContainer = (RelativeLayout) ll.findViewById(R.id.container);
     mContainer.addView(bindingView.getRoot());
     return ll;
@@ -67,16 +82,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
     bindingView.getRoot().setVisibility(View.GONE);
   }
 
-  @Override public void setUserVisibleHint(boolean isVisibleToUser) {
-    super.setUserVisibleHint(isVisibleToUser);
-    if (getUserVisibleHint()) {
-      mIsVisible = true;
-      onVisible();
-    } else {
-      mIsVisible = false;
-      onInVisible();
-    }
-  }
+
 
   protected void onInVisible(){
 

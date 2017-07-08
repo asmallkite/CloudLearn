@@ -2,15 +2,13 @@ package com.kite.cloudlearn.bean.book;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+
 import com.kite.cloudlearn.BR;
 import com.kite.cloudlearn.bean.moviechild.ImagesBean;
 import com.kite.cloudlearn.http.ParamNames;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by jingbin on 2016/12/25.
- */
 
 public class BookDetailBean extends BaseObservable implements Serializable{
 
