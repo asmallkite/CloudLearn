@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.kite.cloudlearn.view.XRecyclerView
+
+    <com.kite.cloudlearn.view.xrecyclerview.XRecyclerView
         android:id="@+id/xrv_welfare"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbarSize="4dp"
         android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@color/tabBackground">
-
-    </com.kite.cloudlearn.view.XRecyclerView>
+        android:scrollbarThumbVertical="@color/tabBackground"/>
 </layout>
 

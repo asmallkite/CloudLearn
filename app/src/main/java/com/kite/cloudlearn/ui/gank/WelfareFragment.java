@@ -14,7 +14,7 @@ import com.kite.cloudlearn.http.HttpUtils;
 import com.kite.cloudlearn.model.GankOtherModel;
 import com.kite.cloudlearn.net.ACache;
 import com.kite.cloudlearn.net.RequestImpl;
-import com.kite.cloudlearn.view.XRecyclerView;
+import com.kite.cloudlearn.view.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 

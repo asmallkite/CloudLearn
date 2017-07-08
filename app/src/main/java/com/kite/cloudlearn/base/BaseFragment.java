@@ -54,8 +54,10 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
       @Nullable Bundle savedInstanceState) {
     View ll = inflater.inflate(R.layout.fragment_base, null);
     bindingView = DataBindingUtil.inflate(getActivity().getLayoutInflater(), setContent(), null, false);
+    //加了以下两行代码，才让WelfareFragment的显示宽度match
     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     bindingView.getRoot().setLayoutParams(params);
+
     mContainer = (RelativeLayout) ll.findViewById(R.id.container);
     mContainer.addView(bindingView.getRoot());
     return ll;
